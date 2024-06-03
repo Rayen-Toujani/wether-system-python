@@ -1,6 +1,6 @@
 import requests
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox ,font
 
 
 def get_weather(city, api_key):
@@ -64,10 +64,35 @@ api_key = "8fd1186d5f284ed1a12231124240206"
 app = tk.Tk()
 app.title("Weather App")
 
-tk.Label(app, text="Enter city name:").pack()
-city_entry = tk.Entry(app)
-city_entry.pack()
+# Set the window size
+app.geometry("400x400")
 
-tk.Button(app,text="Get Weather",command=fetch_and_display_weather).pack()
+# Set the background color
+app.configure(bg="#dff9fb")
+
+# Define custom fonts
+title_font = font.Font(family="Helvetica", size=16, weight="bold")
+label_font = font.Font(family="Helvetica", size=12)
+button_font = font.Font(family="Helvetica", size=12, weight="bold")
+
+# Create and place the title label
+title_label = tk.Label(app, text="Weather App", font=title_font, bg="#dff9fb", fg="#130f40")
+title_label.pack(pady=10)
+
+# Create and place the label for city entry
+city_label = tk.Label(app, text="Enter city name:", font=label_font, bg="#dff9fb", fg="#130f40")
+city_label.pack()
+
+# Create and place the entry for city name
+city_entry = tk.Entry(app, font=label_font, width=30, bd=2, relief=tk.SOLID)
+city_entry.pack(pady=5)
+
+# Create and place the button that fetches and displays the weather
+fetch_button = tk.Button(app, text="Get Weather", font=button_font, bg="#74b9ff", fg="white", command=fetch_and_display_weather, bd=0, relief=tk.SOLID, padx=10, pady=5)
+fetch_button.pack(pady=10)
+
+# Create and place the label that will display the weather information
+weather_label = tk.Label(app, font=label_font, bg="#dff9fb", fg="#130f40", justify=tk.LEFT, wraplength=300)
+weather_label.pack(pady=10)
 
 app.mainloop()
