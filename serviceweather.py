@@ -40,8 +40,9 @@ def fetch_and_display_weather():
     if "error"in weather_data:
         messagebox.showerror("APIError", weather_data["error"]["message"])
         return
+    search_history.append(city)
     displa_weather_in_gui(weather_data)
-
+    update_search_history()
 def displa_weather_in_gui(data):
     city = data["location"]["name"]
     country = data["location"]["country"]
@@ -59,10 +60,18 @@ def displa_weather_in_gui(data):
     )
     messagebox.showinfo("Weather Information", weather_info)
 
+def update_search_history():
+    history_label.config(text="\n".join(search_history[-5:]))
+
+
+
 api_key = "8fd1186d5f284ed1a12231124240206"
 
 app = tk.Tk()
 app.title("Weather App")
+
+search_history = []
+
 
 # Set the window size
 app.geometry("400x400")
@@ -75,6 +84,9 @@ title_font = font.Font(family="Helvetica", size=16, weight="bold")
 label_font = font.Font(family="Helvetica", size=12)
 button_font = font.Font(family="Helvetica", size=12, weight="bold")
 
+
+history_label = tk.Label(app,font=label_font,bg="#dff9fb",fg="#130f40",justify=tk.LEFT)
+history_label.pack(pady=10)
 # Create and place the title label
 title_label = tk.Label(app, text="Weather App", font=title_font, bg="#dff9fb", fg="#130f40")
 title_label.pack(pady=10)
@@ -82,6 +94,9 @@ title_label.pack(pady=10)
 # Create and place the label for city entry
 city_label = tk.Label(app, text="Enter city name:", font=label_font, bg="#dff9fb", fg="#130f40")
 city_label.pack()
+
+for i in search_history:
+    historybutton = tk.Button(app, text=f"{search_history[i]}",command=fetch_and_display_weather())
 
 # Create and place the entry for city name
 city_entry = tk.Entry(app, font=label_font, width=30, bd=2, relief=tk.SOLID)
